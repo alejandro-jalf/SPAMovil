@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardElevation="10dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:background="@color/color_bg_card">
+                <TextView
+                    android:id="@+id/fh_perfil_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fhome_perfil_title"
+                    android:textStyle="bold"
+                    android:textSize="19dp"
+                    android:textColor="#000"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <View
+                    android:id="@+id/fh_pefil_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/fh_perfil_title"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:id="@+id/fh_pefil_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fhome_perfil_name"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_text_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_divider"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jose Alejandro Lopez Flores"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/color_text_dark"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_divider"
+                    app:layout_constraintLeft_toRightOf="@id/fh_pefil_name_title"/>
+
+                <TextView
+                    android:id="@+id/fh_pefil_email_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fhome_perfil_email"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_text_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_name_title"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="aleflo_1996@outlook.com"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_text_dark"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_name_title"
+                    app:layout_constraintLeft_toRightOf="@id/fh_pefil_email_title"/>
+
+                <TextView
+                    android:id="@+id/fh_pefil_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fhome_perfil_address"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_text_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_email_title"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jaltipan Veracruz"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_text_dark"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_email_title"
+                    app:layout_constraintLeft_toRightOf="@id/fh_pefil_address"/>
+
+                <TextView
+                    android:id="@+id/fh_pefil_sucursal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fhome_perfil_sucursal"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_text_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_address"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SPAOficina"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_text_dark"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/fh_pefil_address"
+                    app:layout_constraintLeft_toRightOf="@id/fh_pefil_sucursal"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</LinearLayout>

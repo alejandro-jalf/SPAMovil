@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">SPAMovil</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">SPA Movil</string>
+    <string name="nav_header_subtitle">Super Promociones de Acayucan</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_gallery">Checador de Precios</string>
+    <string name="menu_slideshow">Codificador de articulos</string>
+
+    <string name="name_user">Alejandro Flores</string>
+
+    <string name="fhome_perfil_title">Tu perfil</string>
+    <string name="fhome_perfil_name">Nombre completo:</string>
+    <string name="fhome_perfil_email">Correo Electronico:</string>
+    <string name="fhome_perfil_address">Direccion:</string>
+    <string name="fhome_perfil_sucursal">Sucursal:</string>
+
+    <string name="fhome_avanzado_title">Avanzado</string>
+    <string name="fhome_avanzado_password_title">Cambio de contraseña</string>
+    <string name="fhome_avanzado_password_change_btn">Cambiar contraseña</string>
+    <string name="fhome_avanzado_txt_password_old">Contraseña actual</string>
+    <string name="fhome_avanzado_txt_password">Nueva contraseña</string>
+    <string name="fhome_avanzado_txt_password_repeat">Repita su contraseña</string>
+</resources>
