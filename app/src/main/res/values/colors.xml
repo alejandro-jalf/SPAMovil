@@ -10,5 +10,8 @@
     <color name="color_text_dark">#323232</color>
 
     <color name="color_bg_card">#F6F6F6</color>
+    <color name="color_secondary">#505050</color>
     <color name="light_blue_lighten_5">#E1F5FE</color>
+    <color name="hint_input">#546E7A</color>
+    <color name="color_danger_text">#B30101</color>
 </resources>

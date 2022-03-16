@@ -13,6 +13,7 @@
 
     <string name="name_user">Alejandro Flores</string>
 
+    <string name="fhome_title">Bienvenido a la aplicacion movil de SPA</string>
     <string name="fhome_perfil_title">Tu perfil</string>
     <string name="fhome_perfil_name">Nombre completo:</string>
     <string name="fhome_perfil_email">Correo Electronico:</string>
@@ -25,4 +26,5 @@
     <string name="fhome_avanzado_txt_password_old">Contraseña actual</string>
     <string name="fhome_avanzado_txt_password">Nueva contraseña</string>
     <string name="fhome_avanzado_txt_password_repeat">Repita su contraseña</string>
+    <string name="text_empty"></string>
 </resources>
