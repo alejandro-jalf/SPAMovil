@@ -271,10 +271,102 @@
                         android:id="@+id/btn_change_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/fhome_avanzado_password_change_btn"
                         android:layout_marginTop="15dp"
-                        app:layout_constraintTop_toBottomOf="@id/fh_avanzado_message_old_password"
+                        android:text="@string/fhome_avanzado_password_change_btn"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fh_avanzado_message_old_password" />
+
+                    <View
+                        android:id="@+id/fh_avanzado_sesion_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/purple_500"
+                        app:layout_constraintTop_toBottomOf="@id/btn_change_password"
                         app:layout_constraintLeft_toLeftOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/fh_avanzado_sesion_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fhome_avanzado_txt_sesion_title"
+                        android:layout_marginTop="2dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_secondary"
+                        app:layout_constraintTop_toBottomOf="@+id/fh_avanzado_sesion_divider"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/fh_avanzado_switch_sesion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fhome_avanzado_txt_sesion_activa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/fh_avanzado_sesion_title" />
+
+                    <View
+                        android:id="@+id/fh_avanzado_tab_main_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/purple_500"
+                        app:layout_constraintTop_toBottomOf="@id/fh_avanzado_switch_sesion"
+                        app:layout_constraintLeft_toLeftOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/fh_avanzado_tab_main_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fhome_avanzado_txt_tab_main_title"
+                        android:layout_marginTop="2dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_secondary"
+                        app:layout_constraintTop_toBottomOf="@+id/fh_avanzado_tab_main_divider"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/fh_avanzado_tab_btn_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_btn"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:contentDescription="@string/fhome_avanzado_txt_tab_help"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
+                        android:src="@drawable/ic_baseline_help_30"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fh_avanzado_tab_main_divider" />
+
+                    <RadioGroup
+                        android:id="@+id/fh_home_tab_main_group_radio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/fh_avanzado_tab_btn_help"
+                        app:layout_constraintLeft_toLeftOf="parent">
+                        <RadioButton
+                            android:id="@+id/fh_avanzado_tab_opcion_home"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_home"
+                            android:drawableEnd="@drawable/ic_baseline_home_26_dark" />
+
+                        <RadioButton
+                            android:id="@+id/fh_avanzado_tab_opcion_checador"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_checador"
+                            android:drawableEnd="@drawable/ic_baseline_qr_code_scanner_26_dark" />
+
+                        <RadioButton
+                            android:id="@+id/fh_avanzado_tab_opcion_codificador"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_codificador"
+                            android:drawableEnd="@drawable/ic_baseline_code_26_dark" />
+                    </RadioGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

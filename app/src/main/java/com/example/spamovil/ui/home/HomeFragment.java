@@ -1,5 +1,7 @@
 package com.example.spamovil.ui.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +30,13 @@ public class HomeFragment extends Fragment {
     private TextView textName, textEmail, textAddress, textSucursal, textMessagePassword, textMessagePasswordRepeat, textMessagePasswordOld;
     private EditText inputNewPassword, inputNewPasswordRepeat, inputPasswordOld;
     private Button btnChangePassword;
+    private ImageButton btnHelpTab;
     private Pattern expresionNumber = Pattern.compile("\\d+"), expresionLetter = Pattern.compile("[a-z]+|[A-Z]+");
     private Matcher matchNumber, matchLetter;
     private Boolean resultNumber, resultLetter;
     private String password, passwordRepeat, passwordOld;
+    private AlertDialog alertDialogHelp;
+    private AlertDialog.Builder builder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +45,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        initAlerDialogHelp();
         initComponents(root);
         setDataPerfil("Jose Alejandro Lopez Flores", "aleflo_1996@outlook.com", "Jaltipan Veracruz", "SPAOficina");
         return root;
@@ -85,6 +92,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 validataDataPassword();
+            }
+        });
+        btnHelpTab = view.findViewById(R.id.fh_avanzado_tab_btn_help);
+        btnHelpTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogHelp.show();
             }
         });
     }
@@ -142,6 +156,19 @@ public class HomeFragment extends Fragment {
         textEmail.setText(email);
         textAddress.setText(address);
         textSucursal.setText(sucursal);
+    }
+
+    private void initAlerDialogHelp() {
+        builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.fhome_avanzado_txt_tab_help);
+        builder.setPositiveButton("Entendido", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialogHelp.dismiss();
+            }
+        });
+        alertDialogHelp = builder.create();
+        alertDialogHelp = builder.create();
     }
 
     @Override

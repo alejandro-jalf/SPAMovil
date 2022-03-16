@@ -8,8 +8,8 @@
     <string name="action_settings">Ajustes</string>
 
     <string name="menu_home">Inicio</string>
-    <string name="menu_gallery">Checador de Precios</string>
-    <string name="menu_slideshow">Codificador de articulos</string>
+    <string name="menu_checador">Checador de Precios</string>
+    <string name="menu_codificador">Codificador de articulos</string>
 
     <string name="name_user">Alejandro Flores</string>
 
@@ -26,5 +26,10 @@
     <string name="fhome_avanzado_txt_password_old">Contraseña actual</string>
     <string name="fhome_avanzado_txt_password">Nueva contraseña</string>
     <string name="fhome_avanzado_txt_password_repeat">Repita su contraseña</string>
+    <string name="fhome_avanzado_txt_sesion_title">Opciones de sesion</string>
+    <string name="fhome_avanzado_txt_sesion_activa">Mantener la sesion activa</string>
+    <string name="fhome_avanzado_txt_tab_main_title">Pestaña principal</string>
+    <string name="fhome_avanzado_txt_tab_help">La opcion que elija es la ventana que se abrira al iniciar la aplicacion, por defecto se abre la pantalla inicio</string>
+
     <string name="text_empty"></string>
 </resources>
