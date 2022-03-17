@@ -31,5 +31,9 @@
     <string name="fhome_avanzado_txt_tab_main_title">Pestaña principal</string>
     <string name="fhome_avanzado_txt_tab_help">La opcion que elija es la ventana que se abrira al iniciar la aplicacion, por defecto se abre la pantalla inicio</string>
 
-    <string name="text_empty"></string>
+    <string name="text_empty">…</string>
+
+    <string name="splash_1">Cargando datos de sesion…</string>
+    <string name="splash_2">Obteniendo credenciales de usuario…</string>
+    <string name="splash_3">Comprobando permisos…</string>
 </resources>

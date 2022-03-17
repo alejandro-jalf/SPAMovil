@@ -14,4 +14,6 @@
     <color name="light_blue_lighten_5">#E1F5FE</color>
     <color name="hint_input">#546E7A</color>
     <color name="color_danger_text">#B30101</color>
+    <color name="dark_blue">#006770</color>
+    <color name="light_blue_lighten_4">#B3E5FC</color>
 </resources>
