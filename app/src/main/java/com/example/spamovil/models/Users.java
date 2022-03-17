@@ -4,9 +4,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Users extends RealmObject {
-    @PrimaryKey
     private String correo_user;
-
     private String nombre_user;
     private String apellido_p_user;
     private String apellido_m_user;
@@ -14,7 +12,7 @@ public class Users extends RealmObject {
     private String sucursal_user;
     private String tipo_user;
     private String access_to_user;
-    private Boolean activo_user;
+    private boolean activo_user;
     private String principal;
 
     public String getCorreo_user() {
@@ -81,7 +79,7 @@ public class Users extends RealmObject {
         this.access_to_user = access_to_user;
     }
 
-    public Boolean getActivo_user() {
+    public boolean getActivo_user() {
         return activo_user;
     }
 
