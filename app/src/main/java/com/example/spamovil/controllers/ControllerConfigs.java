@@ -18,6 +18,14 @@ public class ControllerConfigs {
         return realm.where(Configs.class).equalTo("name", name).findFirst();
     }
 
+    public void createConfig(String name, String value) {
+        realm.beginTransaction();
+        configs = realm.createObject(Configs.class, name);
+        configs.setValue(value);
+        realm.commitTransaction();
+        configs = null;
+    }
+
     public void changeConfig(String name, String value) {
         configs = getConfig(name);
         realm.beginTransaction();

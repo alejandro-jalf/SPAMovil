@@ -33,6 +33,7 @@
 
     <string name="text_empty">…</string>
 
+    <string name="splash_config">Cargando configuraciones del sistema…</string>
     <string name="splash_1">Cargando datos de sesion…</string>
     <string name="splash_2">Obteniendo credenciales de usuario…</string>
     <string name="splash_3">Comprobando permisos…</string>
