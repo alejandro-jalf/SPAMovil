@@ -154,9 +154,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startLogin() {
-        // intent = new Intent(context, Login.class);
-        // context.startActivity(intent);
-        Toast.makeText(context, "Listo para iniciar sesion", Toast.LENGTH_LONG).show();
+        intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void startMain() {

@@ -37,4 +37,13 @@
     <string name="splash_1">Cargando datos de sesion…</string>
     <string name="splash_2">Obteniendo credenciales de usuario…</string>
     <string name="splash_3">Comprobando permisos…</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_user_label">Usuario:</string>
+    <string name="login_user_hint">alguien@dominio.subdominio</string>
+    <string name="login_password_label">Contraseña:</string>
+    <string name="login_password_hint">contraseña</string>
+    <string name="login_check_show_password">Mostrar contraseña</string>
+    <string name="login_btn">Iniciar Sesion</string>
+    <string name="login_forgot_password">Olvide mi contraseña</string>
 </resources>

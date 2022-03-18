@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SPAMovil">
         <activity
+            android:name=".views.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SPAMovil.NoActionBar" />
+        <activity
             android:name=".views.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.SPAMovil.NoActionBar" >
+            android:theme="@style/Theme.SPAMovil.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,8 +29,11 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.SPAMovil.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.SPAMovil.NoActionBar" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
