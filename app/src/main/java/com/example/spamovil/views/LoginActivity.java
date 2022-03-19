@@ -1,5 +1,6 @@
 package com.example.spamovil.views;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,6 +32,7 @@ import com.example.spamovil.controllers.ControllerUsers;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private Context context;
     private RequestQueue queue;
     private String url;
+    private String stringData;
     private Intent intent;
     private JSONObject jsonResponse;
 
@@ -100,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         text_user = user.getText().toString().trim();
         text_password = password.getText().toString().trim();
         if (isValidDataForm(text_user, text_password)) {
-            url = configSystem.getURLUSERS() + "api/v1/usuarios/" + text_user;
+            url = configSystem.getURLUSERS() + "api/v1/usuarios/" + text_user + "/login";
             loginUser(url);
         }
     }
@@ -118,10 +122,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String url) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("password_user", text_password);
+            stringData = data.toString();
+        } catch (JSONException e) {}
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("activity_login", "Respuesta de api: " + response);
+                Log.d("activity_login_response", "Respuesta de api: " + response);
                 try {
                     jsonResponse = new JSONObject(response);
                     Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_LONG).show();
@@ -134,13 +143,20 @@ public class LoginActivity extends AppCompatActivity {
                         );*/
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(context, "Fallo al obtener datos de sesion", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Fallo al obtener datos de sesion", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Fallo al iniciar sesion", Toast.LENGTH_LONG).show();
+                try {
+                    JSONObject response = new JSONObject(error.getMessage());
+                    if (!response.getBoolean("success"))
+                        Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Fallo al iniciar sesion", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("activity_login_error", "Respuesta de error " + error.getMessage());
             }
         }) {
             @Override
@@ -149,6 +165,26 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("access-token", configSystem.getTOKENUSERS());
                 params.put("header-spa-store", configSystem.getTOKENUSERS());
                 return params;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return stringData.getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                NetworkResponse networkResponse = volleyError.networkResponse;
+                if (networkResponse != null && networkResponse.data != null) {
+                    String jsonError = new String(networkResponse.data);
+                    return super.parseNetworkError(new VolleyError(jsonError));
+                }
+                return super.parseNetworkError(volleyError);
             }
         };
 
