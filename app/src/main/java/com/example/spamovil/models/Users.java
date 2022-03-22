@@ -16,6 +16,15 @@ public class Users extends RealmObject {
     private String access_to_user;
     private boolean activo_user;
     private String principal;
+    private boolean sessionInit;
+
+    public boolean isSessionInit() {
+        return sessionInit;
+    }
+
+    public void setSessionInit(boolean sessionInit) {
+        this.sessionInit = sessionInit;
+    }
 
     public String getCorreo_user() {
         return correo_user;

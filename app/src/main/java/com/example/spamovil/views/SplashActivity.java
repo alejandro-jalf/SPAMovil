@@ -23,7 +23,7 @@ import com.example.spamovil.controllers.ControllerConfigs;
 import com.example.spamovil.controllers.ControllerUsers;
 import com.example.spamovil.models.Users;
 
-import org.bson.json.JsonParseException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,12 +116,15 @@ public class SplashActivity extends AppCompatActivity {
                 Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 try {
                     jsonResponse = new JSONObject(response);
+                    JSONArray dataArray = jsonResponse.getJSONArray("data");
+                    JSONObject data = dataArray.getJSONObject(0);
                     controllerUsers.changeDataUser(
-                            jsonResponse.getString("correo_user"), jsonResponse.getString("nombre_user"), jsonResponse.getString("apellido_p_user"),
-                            jsonResponse.getString("apellido_m_user"), jsonResponse.getString("direccion_user"), jsonResponse.getString("sucursal_user"),
-                            jsonResponse.getString("tipo_user"), jsonResponse.getString("access_to_user"), jsonResponse.getBoolean("activo_user"),
-                            jsonResponse.getString("principal")
+                            data.getString("correo_user"), data.getString("nombre_user"), data.getString("apellido_p_user"),
+                            data.getString("apellido_m_user"), data.getString("direccion_user"), data.getString("sucursal_user"),
+                            data.getString("tipo_user"), data.getString("access_to_user"), data.getBoolean("activo_user"),
+                            data.getString("principal")
                     );
+                    startMain();
                 } catch (JSONException e) {
                     Toast.makeText(context, "Fallo al actualizar datos de usuario", Toast.LENGTH_LONG).show();
                 }

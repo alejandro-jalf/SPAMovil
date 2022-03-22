@@ -19,6 +19,10 @@ public class ControllerUsers {
         return realm.where(Users.class).equalTo("correo_user", email).findFirst();
     }
 
+    public Users getUserLogin() {
+        return realm.where(Users.class).equalTo("sessionInit", true).findFirst();
+    }
+
     public Users getUser() {
         return realm.where(Users.class).findFirst();
     }
@@ -38,7 +42,28 @@ public class ControllerUsers {
         users.setAccess_to_user(access_to_user);
         users.setActivo_user(activo_user);
         users.setPrincipal(principal);
+        users.setSessionInit(true);
         realm.commitTransaction();
+    }
+
+    public void changeDataUser(
+            String correo_user, String nombre_user, String apellido_p_user, String apellido_m_user, String direccion_user, String sucursal_user,
+            String tipo_user, String access_to_user, Boolean activo_user, String principal, boolean sessionInit
+    ) {
+        users = getUser(correo_user);
+        realm.beginTransaction();
+        users.setNombre_user(nombre_user);
+        users.setApellido_p_user(apellido_p_user);
+        users.setApellido_m_user(apellido_m_user);
+        users.setDireccion_user(direccion_user);
+        users.setSucursal_user(sucursal_user);
+        users.setTipo_user(tipo_user);
+        users.setAccess_to_user(access_to_user);
+        users.setActivo_user(activo_user);
+        users.setPrincipal(principal);
+        users.setSessionInit(sessionInit);
+        realm.commitTransaction();
+        users = null;
     }
 
     public void changeDataUser(
@@ -56,6 +81,14 @@ public class ControllerUsers {
         users.setAccess_to_user(access_to_user);
         users.setActivo_user(activo_user);
         users.setPrincipal(principal);
+        realm.commitTransaction();
+        users = null;
+    }
+
+    public void setSessionInit(String correo_user, boolean initSession) {
+        users = getUser(correo_user);
+        realm.beginTransaction();
+        users.setSessionInit(initSession);
         realm.commitTransaction();
         users = null;
     }

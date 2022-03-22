@@ -5,28 +5,43 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spamovil.R;
+import com.example.spamovil.controllers.ControllerConfigs;
+import com.example.spamovil.controllers.ControllerUsers;
 import com.example.spamovil.databinding.FragmentHomeBinding;
+import com.example.spamovil.models.Configs;
+import com.example.spamovil.models.Users;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.spamovil.Services.Instances.getControllerConfigs;
+import static com.example.spamovil.Services.Instances.getControllerUsers;
+
 public class HomeFragment extends Fragment {
 
+    private ControllerUsers controllerUsers;
+    private ControllerConfigs controllerConfigs;
+    private Users user;
+    private Configs configs;
     private FragmentHomeBinding binding;
+    private SwitchCompat switchSession;
     private TextView textName, textEmail, textAddress, textSucursal, textMessagePassword, textMessagePasswordRepeat, textMessagePasswordOld;
     private EditText inputNewPassword, inputNewPasswordRepeat, inputPasswordOld;
     private Button btnChangePassword;
@@ -45,10 +60,17 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        initInstances();
         initAlerDialogHelp();
         initComponents(root);
-        setDataPerfil("Jose Alejandro Lopez Flores", "aleflo_1996@outlook.com", "Jaltipan Veracruz", "SPAOficina");
+        setDataPerfil();
+        getConfigSession();
         return root;
+    }
+
+    private void initInstances(){
+        controllerUsers = getControllerUsers();
+        controllerConfigs = getControllerConfigs();
     }
 
     private void initComponents(View view) {
@@ -59,6 +81,14 @@ public class HomeFragment extends Fragment {
         textMessagePassword = view.findViewById(R.id.fh_avanzado_message_new_passsword);
         textMessagePasswordRepeat = view.findViewById(R.id.fh_avanzado_message_new_passsword_repeat);
         textMessagePasswordOld = view.findViewById(R.id.fh_avanzado_message_old_password);
+
+        switchSession = view.findViewById(R.id.fh_avanzado_switch_sesion);
+        switchSession.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean session) {
+                controllerConfigs.changeConfig("SesionActiva", Boolean.toString(session));
+            }
+        });
 
         inputNewPassword = view.findViewById(R.id.fh_avanzado_text_password_new);
         inputNewPassword.addTextChangedListener(new TextWatcher() {
@@ -151,11 +181,20 @@ public class HomeFragment extends Fragment {
         else Toast.makeText(getContext(), "Evento activado", Toast.LENGTH_LONG).show();
     }
 
-    private void setDataPerfil(String name, String email, String address, String sucursal) {
-        textName.setText(name);
-        textEmail.setText(email);
-        textAddress.setText(address);
-        textSucursal.setText(sucursal);
+    private void setDataPerfil() {
+        user = controllerUsers.getUserLogin();
+        if (user != null) {
+            textName.setText(user.getNombre_user());
+            textEmail.setText(user.getCorreo_user());
+            textAddress.setText(user.getDireccion_user());
+            textSucursal.setText(user.getSucursal_user());
+        }
+    }
+
+    private void getConfigSession() {
+        configs = controllerConfigs.getConfig("SesionActiva");
+        if (configs != null)
+            switchSession.setChecked(Boolean.parseBoolean(configs.getValue()));
     }
 
     private void initAlerDialogHelp() {

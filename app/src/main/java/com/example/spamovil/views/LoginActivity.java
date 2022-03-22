@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class LoginActivity extends AppCompatActivity {
     private ControllerUsers controllerUsers;
@@ -112,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initSesion() {
         text_user = user.getText().toString().trim();
         text_password = password.getText().toString().trim();
+        user.clearFocus();
         if (isValidDataForm(text_user, text_password)) {
             url = configSystem.getURLUSERS() + "api/v1/usuarios/" + text_user + "/login";
             loginUser(url, text_user, text_password);
@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                     jsonData.getString("correo_user"), jsonData.getString("nombre_user"), jsonData.getString("apellido_p_user"),
                                     jsonData.getString("apellido_m_user"), jsonData.getString("direccion_user"), jsonData.getString("sucursal_user"),
                                     jsonData.getString("tipo_user"), jsonData.getString("access_to_user"), jsonData.getBoolean("activo_user"),
-                                    jsonData.getString("principal")
+                                    jsonData.getString("principal"), true
                             );
                         }
                         Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_LONG).show();
