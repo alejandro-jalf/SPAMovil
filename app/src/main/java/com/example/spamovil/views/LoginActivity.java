@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private CheckBox showPassword;
     private TextView forgotPassword;
+    private View backgroundSpinner;
+    private ProgressBar spinner;
     private String text_user;
     private String text_password;
     private Context context;
@@ -68,9 +71,12 @@ public class LoginActivity extends AppCompatActivity {
 
         initComponents();
         initInstances();
+        setLogin(false);
     }
 
     private void initComponents() {
+        backgroundSpinner = findViewById(R.id.login_background_spinner);
+        spinner = findViewById(R.id.login_spinner);
         user = findViewById(R.id.login_user);
         password = findViewById(R.id.login_password);
         btnLogin = findViewById(R.id.login_btn);
@@ -125,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String url, String user, String password) {
+        setLogin(true);
         JSONObject data = new JSONObject();
         try {
             data.put("password_user", password);
@@ -135,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     jsonResponse = new JSONObject(response);
-                    Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_LONG).show();
                     if (jsonResponse.getBoolean("success")) {
                         JSONObject jsonData = jsonResponse.getJSONObject("data");
                         users = controllerUsers.getUser(user);
@@ -155,9 +161,12 @@ public class LoginActivity extends AppCompatActivity {
                                     jsonData.getString("principal")
                             );
                         }
+                        Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_LONG).show();
                         startMain();
+                        setLogin(false);
                     }
                 } catch (JSONException e) {
+                    setLogin(false);
                     Toast.makeText(context, "Fallo al obtener datos de sesion", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -165,10 +174,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
+                    setLogin(false);
                     JSONObject response = new JSONObject(error.getMessage());
                     if (!response.getBoolean("success"))
                         Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
+                    setLogin(false);
                     Toast.makeText(context, "Fallo al iniciar sesion", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -209,5 +220,15 @@ public class LoginActivity extends AppCompatActivity {
         intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void setLogin(boolean login) {
+        if (login) {
+            backgroundSpinner.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+        } else {
+            backgroundSpinner.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.INVISIBLE);
+        }
     }
 }

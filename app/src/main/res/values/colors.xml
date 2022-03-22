@@ -16,4 +16,5 @@
     <color name="color_danger_text">#B30101</color>
     <color name="dark_blue">#006770</color>
     <color name="light_blue_lighten_4">#B3E5FC</color>
+    <color name="background_spinner">#B3FFFFFF</color>
 </resources>
