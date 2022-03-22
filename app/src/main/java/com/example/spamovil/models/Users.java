@@ -4,7 +4,9 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Users extends RealmObject {
+    @PrimaryKey
     private String correo_user;
+
     private String nombre_user;
     private String apellido_p_user;
     private String apellido_m_user;

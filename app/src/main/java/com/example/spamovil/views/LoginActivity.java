@@ -1,5 +1,6 @@
 package com.example.spamovil.views;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +29,7 @@ import com.example.spamovil.Configs.Config;
 import com.example.spamovil.MainActivity;
 import com.example.spamovil.R;
 import com.example.spamovil.controllers.ControllerUsers;
+import com.example.spamovil.models.Users;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +43,7 @@ import io.realm.RealmConfiguration;
 
 public class LoginActivity extends AppCompatActivity {
     private ControllerUsers controllerUsers;
+    private Users users;
     private Config configSystem;
     private EditText user;
     private EditText password;
@@ -105,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         text_password = password.getText().toString().trim();
         if (isValidDataForm(text_user, text_password)) {
             url = configSystem.getURLUSERS() + "api/v1/usuarios/" + text_user + "/login";
-            loginUser(url);
+            loginUser(url, text_user, text_password);
         }
     }
 
@@ -121,26 +124,38 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loginUser(String url) {
+    private void loginUser(String url, String user, String password) {
         JSONObject data = new JSONObject();
         try {
-            data.put("password_user", text_password);
+            data.put("password_user", password);
             stringData = data.toString();
         } catch (JSONException e) {}
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("activity_login_response", "Respuesta de api: " + response);
                 try {
                     jsonResponse = new JSONObject(response);
                     Toast.makeText(context, jsonResponse.getString("message"), Toast.LENGTH_LONG).show();
                     if (jsonResponse.getBoolean("success")) {
-                        /* controllerUsers.changeDataUser(
-                                jsonResponse.getString("correo_user"), jsonResponse.getString("nombre_user"), jsonResponse.getString("apellido_p_user"),
-                                jsonResponse.getString("apellido_m_user"), jsonResponse.getString("direccion_user"), jsonResponse.getString("sucursal_user"),
-                                jsonResponse.getString("tipo_user"), jsonResponse.getString("access_to_user"), jsonResponse.getBoolean("activo_user"),
-                                jsonResponse.getString("principal")
-                        );*/
+                        JSONObject jsonData = jsonResponse.getJSONObject("data");
+                        users = controllerUsers.getUser(user);
+                        if (users == null) {
+                            controllerUsers.createUser(
+                                jsonData.getString("correo_user"), jsonData.getString("nombre_user"), jsonData.getString("apellido_p_user"),
+                                jsonData.getString("apellido_m_user"), jsonData.getString("direccion_user"), jsonData.getString("sucursal_user"),
+                                jsonData.getString("tipo_user"), jsonData.getString("access_to_user"), jsonData.getBoolean("activo_user"),
+                                jsonData.getString("principal")
+                            );
+                        } else {
+                            Log.d("activity_login_user", users.toString());
+                            controllerUsers.changeDataUser(
+                                    jsonData.getString("correo_user"), jsonData.getString("nombre_user"), jsonData.getString("apellido_p_user"),
+                                    jsonData.getString("apellido_m_user"), jsonData.getString("direccion_user"), jsonData.getString("sucursal_user"),
+                                    jsonData.getString("tipo_user"), jsonData.getString("access_to_user"), jsonData.getBoolean("activo_user"),
+                                    jsonData.getString("principal")
+                            );
+                        }
+                        startMain();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, "Fallo al obtener datos de sesion", Toast.LENGTH_SHORT).show();
@@ -156,7 +171,6 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Toast.makeText(context, "Fallo al iniciar sesion", Toast.LENGTH_SHORT).show();
                 }
-                Log.d("activity_login_error", "Respuesta de error " + error.getMessage());
             }
         }) {
             @Override
@@ -192,9 +206,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startMain() {
-        intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-        Toast.makeText(context, "Bienvenido", Toast.LENGTH_SHORT).show();
-        this.finish();
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

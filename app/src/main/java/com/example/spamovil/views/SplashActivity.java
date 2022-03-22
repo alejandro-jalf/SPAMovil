@@ -83,7 +83,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loadConfigDefault() {
-        Log.d("activity_splash", Boolean.toString(controllerConfigs.thereAreRegister()));
         if (!controllerConfigs.thereAreRegister()) {
             messagesSplash.setText(R.string.splash_config);
             controllerConfigs.createConfig("TabMain", "index");
@@ -101,7 +100,6 @@ public class SplashActivity extends AppCompatActivity {
             );
             if (!sesionActiva) startLogin();
             else {
-                Log.d("activity_splash", "Entra a revisar sesion");
                 messagesSplash.setText(R.string.splash_2);
                 users = controllerUsers.getUser();
                 url = configSystem.getURLUSERS() + "api/v1/usuarios/" + users.getCorreo_user();
@@ -114,7 +112,6 @@ public class SplashActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("activity_splash", "Respuesta de api" + response);
                 messagesSplash.setText(R.string.splash_3);
                 Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 try {
@@ -132,11 +129,6 @@ public class SplashActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("activity_splash", "Respuesta de error " + error.getMessage());
-                Log.d("activity_splash", "Respuesta de error 2 " + error.toString());
-                Log.d("activity_splash", "Respuesta de error 3 " + error.networkResponse);
-                Log.d("activity_splash", "Respuesta de error 4 " + error.getLocalizedMessage());
-                Log.d("activity_splash", "Respuesta de error 5 " + error);
                 Toast.makeText(context, "Fallas en la respuesta", Toast.LENGTH_LONG).show();
                 startLogin();
             }
@@ -160,9 +152,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startMain() {
-        this.finish();
-        intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
         Toast.makeText(context, "Bienvenido", Toast.LENGTH_SHORT).show();
+        intent = new Intent(context, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
