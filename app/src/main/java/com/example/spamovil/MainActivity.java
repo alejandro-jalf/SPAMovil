@@ -1,9 +1,15 @@
 package com.example.spamovil;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.spamovil.Services.Instances;
+import com.example.spamovil.controllers.ControllerConfigs;
+import com.example.spamovil.models.Configs;
+import com.example.spamovil.models.Users;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -18,8 +24,11 @@ import com.example.spamovil.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ControllerConfigs controllerConfigs;
+    private Configs configs;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private int visita = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +45,37 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        controllerConfigs = Instances.getControllerConfigs();
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_checador_precios, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //setTabMain(navController);
+    }
+
+    private void setTabMain(NavController navController) {
+        configs = controllerConfigs.getConfig("TabMain");
+        switch (configs.getValue()) {
+            case "Inicio":
+                navController.navigate(R.id.nav_home);
+                break;
+            case "Checador de Precios":
+                navController.navigate(R.id.nav_checador_precios);
+                break;
+            case "Codificador de articulos":
+                navController.navigate(R.id.nav_slideshow);
+                break;
+        }
+        visita++;
     }
 
     @Override

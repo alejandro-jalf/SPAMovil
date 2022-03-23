@@ -18,16 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.spamovil.R;
 import com.example.spamovil.controllers.ControllerConfigs;
 import com.example.spamovil.controllers.ControllerUsers;
+import com.example.spamovil.databinding.ActivityMainBinding;
 import com.example.spamovil.databinding.FragmentHomeBinding;
 import com.example.spamovil.models.Configs;
 import com.example.spamovil.models.Users;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -213,7 +218,6 @@ public class HomeFragment extends Fragment {
 
     private void getConfigTabMain() {
         configs = controllerConfigs.getConfig("TabMain");
-        Log.d("activity_home", configs.getValue());
         RadioButton radioTab;
         for (int index = 0; index < listOptions.size(); index++) {
             radioTab = listOptions.get(index);

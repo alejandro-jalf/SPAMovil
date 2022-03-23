@@ -101,9 +101,14 @@ public class SplashActivity extends AppCompatActivity {
             if (!sesionActiva) startLogin();
             else {
                 messagesSplash.setText(R.string.splash_2);
-                users = controllerUsers.getUser();
-                url = configSystem.getURLUSERS() + "api/v1/usuarios/" + users.getCorreo_user();
-                requestDataUser(url);
+                users = controllerUsers.getUserLogin();
+                if (users == null) {
+                    Toast.makeText(context, "No se ha encontrado alguna cuenta logueada", Toast.LENGTH_LONG).show();
+                    startLogin();
+                } else  {
+                    url = configSystem.getURLUSERS() + "api/v1/usuarios/" + users.getCorreo_user();
+                    requestDataUser(url);
+                }
             }
         }
     }
@@ -124,7 +129,11 @@ public class SplashActivity extends AppCompatActivity {
                             data.getString("tipo_user"), data.getString("access_to_user"), data.getBoolean("activo_user"),
                             data.getString("principal")
                     );
-                    startMain();
+                    if (!data.getBoolean("activo_user")) {
+                        Toast.makeText(context, "Su cuenta ha sido suspendida, comunicate con el administrador", Toast.LENGTH_LONG).show();
+                        controllerUsers.setSessionInit(data.getString("correo_user"), false);
+                        startLogin();
+                    } else startMain();
                 } catch (JSONException e) {
                     Toast.makeText(context, "Fallo al actualizar datos de usuario", Toast.LENGTH_LONG).show();
                 }

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.spamovil.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_checador_precios"
+        android:name="com.example.spamovil.ui.ChecadorPreciosFragment"
         android:label="@string/menu_checador"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_checador_precios" />
 
     <fragment
         android:id="@+id/nav_slideshow"
