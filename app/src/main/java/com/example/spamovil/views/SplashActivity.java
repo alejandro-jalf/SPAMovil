@@ -85,7 +85,7 @@ public class SplashActivity extends AppCompatActivity {
     private void loadConfigDefault() {
         if (!controllerConfigs.thereAreRegister()) {
             messagesSplash.setText(R.string.splash_config);
-            controllerConfigs.createConfig("TabMain", "index");
+            controllerConfigs.createConfig("TabMain", "Inicio");
             controllerConfigs.createConfig("SesionActiva", "false");
             messagesSplash.setText(R.string.splash_1);
         }

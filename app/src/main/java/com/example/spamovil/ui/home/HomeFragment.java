@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.example.spamovil.databinding.FragmentHomeBinding;
 import com.example.spamovil.models.Configs;
 import com.example.spamovil.models.Users;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,9 +46,14 @@ public class HomeFragment extends Fragment {
     private SwitchCompat switchSession;
     private TextView textName, textEmail, textAddress, textSucursal, textMessagePassword, textMessagePasswordRepeat, textMessagePasswordOld;
     private EditText inputNewPassword, inputNewPasswordRepeat, inputPasswordOld;
+    private ArrayList<RadioButton> listOptions = new ArrayList<>();
+    private RadioButton radioInicio;
+    private RadioButton radioChecadorPrecios;
+    private RadioButton radioCodificador;
     private Button btnChangePassword;
     private ImageButton btnHelpTab;
-    private Pattern expresionNumber = Pattern.compile("\\d+"), expresionLetter = Pattern.compile("[a-z]+|[A-Z]+");
+    private final Pattern expresionNumber = Pattern.compile("\\d+");
+    private final Pattern expresionLetter = Pattern.compile("[a-z]+|[A-Z]+");
     private Matcher matchNumber, matchLetter;
     private Boolean resultNumber, resultLetter;
     private String password, passwordRepeat, passwordOld;
@@ -65,6 +72,7 @@ public class HomeFragment extends Fragment {
         initComponents(root);
         setDataPerfil();
         getConfigSession();
+        getConfigTabMain();
         return root;
     }
 
@@ -131,6 +139,12 @@ public class HomeFragment extends Fragment {
                 alertDialogHelp.show();
             }
         });
+        radioInicio = view.findViewById(R.id.fh_avanzado_tab_opcion_home);
+        addTabRadio(radioInicio);
+        radioCodificador = view.findViewById(R.id.fh_avanzado_tab_opcion_codificador);
+        addTabRadio(radioCodificador);
+        radioChecadorPrecios = view.findViewById(R.id.fh_avanzado_tab_opcion_checador);
+        addTabRadio(radioChecadorPrecios);
     }
 
     private void validatePasswordNew(String password) {
@@ -195,6 +209,29 @@ public class HomeFragment extends Fragment {
         configs = controllerConfigs.getConfig("SesionActiva");
         if (configs != null)
             switchSession.setChecked(Boolean.parseBoolean(configs.getValue()));
+    }
+
+    private void getConfigTabMain() {
+        configs = controllerConfigs.getConfig("TabMain");
+        Log.d("activity_home", configs.getValue());
+        RadioButton radioTab;
+        for (int index = 0; index < listOptions.size(); index++) {
+            radioTab = listOptions.get(index);
+            Log.d("activity_home", radioTab.getText().toString());
+            if (radioTab.getText().toString().equals(configs.getValue()))
+                radioTab.setChecked(true);
+        }
+    }
+
+    private void addTabRadio(RadioButton tab) {
+        String nameOption = tab.getText().toString();
+        tab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controllerConfigs.changeConfig("TabMain", nameOption);
+            }
+        });
+        listOptions.add(tab);
     }
 
     private void initAlerDialogHelp() {
