@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/fcp_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"

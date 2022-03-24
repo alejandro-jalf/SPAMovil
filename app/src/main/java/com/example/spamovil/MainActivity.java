@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_26);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        instances = new Instances();
+        instances = new Instances(getApplicationContext());
         controllerConfigs = Instances.getControllerConfigs();
 
         drawer = binding.drawerLayout;

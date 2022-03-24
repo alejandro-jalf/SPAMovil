@@ -1,5 +1,7 @@
 package com.example.spamovil.Services;
 
+import android.content.Context;
+
 import com.example.spamovil.Configs.Config;
 import com.example.spamovil.controllers.ControllerConfigs;
 import com.example.spamovil.controllers.ControllerUsers;
@@ -10,6 +12,8 @@ public class Instances {
     private static ControllerConfigs controllerConfigs = null;
     private static ControllerUsers controllerUsers = null;
     private static Config configs = null;
+    private static Context context;
+    private static ConexionSqlServer conexionSqlServer = null;
 
     public Instances(ControllerConfigs controllerConfigs, ControllerUsers controllerUsers, Config configs) {
         this.controllerConfigs = controllerConfigs;
@@ -18,6 +22,16 @@ public class Instances {
     }
 
     public Instances() {}
+
+    public Instances(Context context) {
+        this.context = context;
+    }
+
+    public static ConexionSqlServer getConexionSqlServer() {
+        if (conexionSqlServer == null)
+            conexionSqlServer = new ConexionSqlServer(context, configs);
+        return conexionSqlServer;
+    }
 
     public static ControllerUsers getControllerUsers() {
         if (controllerUsers == null)
