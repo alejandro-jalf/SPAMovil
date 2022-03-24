@@ -46,4 +46,6 @@
     <string name="login_check_show_password">Mostrar contraseña</string>
     <string name="login_btn">Iniciar Sesion</string>
     <string name="login_forgot_password">Olvide mi contraseña</string>
+
+    <string name="checador_precios_precio">A solo: $17.60</string>
 </resources>
