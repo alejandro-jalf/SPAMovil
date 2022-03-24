@@ -17,4 +17,8 @@
     <color name="dark_blue">#006770</color>
     <color name="light_blue_lighten_4">#B3E5FC</color>
     <color name="background_spinner">#B3FFFFFF</color>
+    <color name="amber_darken_4">#FFA000</color>
+    <color name="amber_darken_3">#FF8F00</color>
+    <color name="amber_darken_2">#FF6F00</color>
+    <color name="yellow_accent_2">#FFFF00</color>
 </resources>

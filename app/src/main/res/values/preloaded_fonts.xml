@@ -5,5 +5,7 @@
         <item>@font/alex_brush</item>
         <item>@font/beth_ellen</item>
         <item>@font/pacifico</item>
+        <item>@font/roboto_medium</item>
+        <item>@font/roboto_thin</item>
     </array>
 </resources>
