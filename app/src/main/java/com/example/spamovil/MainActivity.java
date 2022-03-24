@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             case "Checador de Precios":
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                ChecadorPreciosFragment checadorPreciosFragment = new ChecadorPreciosFragment();
+                ChecadorPreciosFragment checadorPreciosFragment = new ChecadorPreciosFragment(getWindow().getDecorView(), getSupportActionBar());
                 fragmentTransaction.replace(R.id.nav_host_fragment_content_main, checadorPreciosFragment);
                 fragmentTransaction.commit();
                 break;
@@ -156,12 +156,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     } */
 
-    /* public static void fullScreen() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        );
-    } */
 }
