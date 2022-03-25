@@ -3,6 +3,7 @@ package com.example.spamovil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int visita = 0;
     private DrawerLayout drawer;
+    private ChecadorPreciosFragment checadorPreciosFragment = null;
+    private String barCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             case "Checador de Precios":
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                ChecadorPreciosFragment checadorPreciosFragment = new ChecadorPreciosFragment(getWindow().getDecorView(), getSupportActionBar());
+                ChecadorPreciosFragment checadorPreciosFragment = getChecadorPreciosFragment();
                 fragmentTransaction.replace(R.id.nav_host_fragment_content_main, checadorPreciosFragment);
                 fragmentTransaction.commit();
                 break;
@@ -125,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
                 break;
         }
+    }
+
+    private ChecadorPreciosFragment getChecadorPreciosFragment() {
+        if (checadorPreciosFragment == null)
+            checadorPreciosFragment = new ChecadorPreciosFragment(getWindow().getDecorView(), getSupportActionBar());
+        return checadorPreciosFragment;
     }
 
     private void setTabMain() {
@@ -147,6 +156,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode >= 7 && keyCode <= 16)
+            barCode += String.valueOf(event.getNumber());
+        else if (keyCode == 66) {
+            checadorPreciosFragment.getPriceArticle(barCode);
+            barCode = "";
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     /* @Override

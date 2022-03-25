@@ -3,15 +3,12 @@ package com.example.spamovil.ui;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.spamovil.R;
 import com.example.spamovil.models.Articulos;
@@ -20,15 +17,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.jar.JarException;
-import java.util.zip.Inflater;
-
 public class ChecadorPreciosFragment extends Fragment {
 
     private FloatingActionButton fabFullScreen;
     private View decorView;
     private ActionBar actionBar;
-    private CardView cardView;
     private Articulos articulos;
     private JSONObject response;
     private TextView nameArticle;
@@ -93,13 +86,6 @@ public class ChecadorPreciosFragment extends Fragment {
         amount3Article = view.findViewById(R.id.fcp_cantidad_precio_3);
         line2Article = view.findViewById(R.id.fcp_divisor_2);
         line3Article = view.findViewById(R.id.fcp_divisor_3);
-        cardView = view.findViewById(R.id.fcp_cardView);
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getPriceArticle();
-            }
-        });
         fabFullScreen = view.findViewById(R.id.fcp_fullscreen);
         fabFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,8 +113,8 @@ public class ChecadorPreciosFragment extends Fragment {
         actionBar.hide();
     }
 
-    private void getPriceArticle() {
-        response = articulos.getPrecioArticulo("ZR", "0125708");
+    public void getPriceArticle(String barCode) {
+        response = articulos.getPrecioArticulo("ZR", barCode);
         if (response != null) {
             try {
                 if (isValue(response, "Nombre"))
