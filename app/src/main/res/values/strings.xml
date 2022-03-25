@@ -48,4 +48,6 @@
     <string name="login_forgot_password">Olvide mi contraseña</string>
 
     <string name="checador_precios_ayuda">Pase el escaner y espere hasta oir un beep</string>
+    <string name="checador_articulo">Articulo no encontrado</string>
+    <string name="checador_precio">No disponible</string>
 </resources>

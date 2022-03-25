@@ -69,8 +69,6 @@ public class Articulos {
                 result.put("CantidadParaPrecio2", resultSet.getString("CantidadParaPrecio2"));
                 result.put("Precio3IVAUV", resultSet.getString("Precio3IVAUV"));
                 result.put("CantidadParaPrecio3", resultSet.getString("CantidadParaPrecio3"));
-                Log.d("Model_articulos", result.toString());
-                Log.d("Model_articulos_3", String.valueOf(resultSet.getFloat("Precio3IVAUV")) + " " + String.valueOf(resultSet.getDouble("Precio3IVAUV")));
             }
         } catch (JSONException je) {
             Toast.makeText(context, je.getMessage(), Toast.LENGTH_LONG).show();

@@ -83,15 +83,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Aceite Nutrioli 400ml"
+                android:text="@string/checador_articulo"
                 android:textColor="@color/black"
-                android:textSize="19sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="25dp"
                 android:background="@color/dark_blue" />
 
             <TextView
@@ -100,13 +100,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="A solo: $25.50"
-                android:textColor="@color/dark_blue"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:text="@string/checador_precio"
+                style="@style/text_precio" />
 
             <View
                 android:id="@+id/fcp_divisor_2"
+                android:visibility="gone"
                 style="@style/divison_red" />
 
             <TextView
@@ -115,9 +114,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="A partir de 6 pz:"
-                android:textColor="@color/black"
-                android:textSize="19sp" />
+                android:visibility="gone"
+                android:text="@string/text_empty"
+                style="@style/text_piezas" />
 
             <TextView
                 android:id="@+id/fcp_precio_2"
@@ -125,13 +124,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="A solo: $25.00"
-                android:textColor="@color/dark_blue"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:visibility="gone"
+                android:text="@string/text_empty"
+                style="@style/text_precio" />
 
             <View
                 android:id="@+id/fcp_divisor_3"
+                android:visibility="gone"
                 style="@style/divison_red" />
 
             <TextView
@@ -140,9 +139,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="A partir de 12 pz:"
-                android:textColor="@color/black"
-                android:textSize="19sp" />
+                android:visibility="gone"
+                android:text="@string/text_empty"
+                style="@style/text_piezas" />
 
             <TextView
                 android:id="@+id/fcp_precio_3"
@@ -150,14 +149,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="A solo: $24.50"
-                android:textColor="@color/dark_blue"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:visibility="gone"
+                android:text="@string/text_empty"
+                style="@style/text_precio" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="25dp"
                 android:background="@color/dark_blue" />
 
             <TextView
@@ -165,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:text="Aceite comestible puro de soya Nutrioli 400ml"
+                android:text="@string/checador_articulo"
                 android:textColor="@color/black"
                 android:textSize="19sp"
                 android:textStyle="bold" />
