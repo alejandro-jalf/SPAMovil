@@ -1,11 +1,11 @@
 package com.example.spamovil.models;
 
 import com.example.spamovil.Services.ConexionSqlServer;
-import static com.example.spamovil.Services.Instances.getConexionSqlServer;
+
 import static com.example.spamovil.Services.Instances.getConfigs;
+import static com.example.spamovil.Services.Instances.getControllerConfigs;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,7 +22,7 @@ public class Articulos {
     private Connection connection;
 
     public Articulos(Context context) {
-        this.conexionSqlServer = new ConexionSqlServer(context, getConfigs());
+        this.conexionSqlServer = new ConexionSqlServer(context, getConfigs(), getControllerConfigs());
         this.context = context;
     }
 

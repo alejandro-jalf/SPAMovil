@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spamovil.R;
+import static com.example.spamovil.Services.Instances.getControllerConfigs;
+import com.example.spamovil.controllers.ControllerConfigs;
 import com.example.spamovil.models.Articulos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -19,6 +22,7 @@ import org.json.JSONObject;
 
 public class ChecadorPreciosFragment extends Fragment {
 
+    private ControllerConfigs controllerConfigs;
     private FloatingActionButton fabFullScreen;
     private View decorView;
     private ActionBar actionBar;
@@ -70,10 +74,15 @@ public class ChecadorPreciosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_checador_precios, container, false);
-        articulos = new Articulos(getContext());
+        initInstances();
         initComponents(view);
 
         return view;
+    }
+
+    private void initInstances() {
+        controllerConfigs = getControllerConfigs();
+        articulos = new Articulos(getContext());
     }
 
     private void initComponents(View view) {
@@ -114,7 +123,13 @@ public class ChecadorPreciosFragment extends Fragment {
     }
 
     public void getPriceArticle(String barCode) {
-        response = articulos.getPrecioArticulo("ZR", barCode);
+        String sucursal = "ZR";
+        try {
+            sucursal = controllerConfigs.getConfig("Sucursal").getValue();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "No se pudo obtener la sucursal", Toast.LENGTH_SHORT).show();
+        }
+        response = articulos.getPrecioArticulo(sucursal, barCode);
         if (response != null) {
             try {
                 if (isValue(response, "Nombre"))

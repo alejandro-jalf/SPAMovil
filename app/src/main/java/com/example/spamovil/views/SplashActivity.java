@@ -87,6 +87,9 @@ public class SplashActivity extends AppCompatActivity {
             messagesSplash.setText(R.string.splash_config);
             controllerConfigs.createConfig("TabMain", "Inicio");
             controllerConfigs.createConfig("SesionActiva", "false");
+            controllerConfigs.createConfig("Sucursal", "ZR");
+            controllerConfigs.createConfig("Host", "192.168.123.100");
+            controllerConfigs.createConfig("DataBase", "SPASUPER1");
             messagesSplash.setText(R.string.splash_1);
         }
     }
@@ -132,6 +135,7 @@ public class SplashActivity extends AppCompatActivity {
                     if (!data.getBoolean("activo_user")) {
                         Toast.makeText(context, "Su cuenta ha sido suspendida, comunicate con el administrador", Toast.LENGTH_LONG).show();
                         controllerUsers.setSessionInit(data.getString("correo_user"), false);
+                        controllerConfigs.createConfig("SesionActiva", "false");
                         startLogin();
                     } else startMain();
                 } catch (JSONException e) {

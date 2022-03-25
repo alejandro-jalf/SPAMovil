@@ -27,12 +27,6 @@ public class Instances {
         this.context = context;
     }
 
-    public static ConexionSqlServer getConexionSqlServer() {
-        if (conexionSqlServer == null)
-            conexionSqlServer = new ConexionSqlServer(context, configs);
-        return conexionSqlServer;
-    }
-
     public static ControllerUsers getControllerUsers() {
         if (controllerUsers == null)
             controllerUsers = new ControllerUsers(Realm.getDefaultInstance());
