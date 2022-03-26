@@ -31,7 +31,17 @@
     <string name="fhome_avanzado_txt_tab_main_title">Pestaña principal</string>
     <string name="fhome_avanzado_txt_tab_help">La opcion que elija es la ventana que se abrira al iniciar la aplicacion, por defecto se abre la pantalla inicio</string>
 
+    <string name="fhome_admin_title">Administrador</string>
+    <string name="fhome_admin_dl_sucursal">Sucursal</string>
+    <string name="fhome_admin_dl_host">Host</string>
+    <string name="fhome_admin_dl_database">Base de datos</string>
+    <string name="fhome_admin_dl_btn">Editar:</string>
+    <string name="fhome_admin_dl_datos_change_title">Cambiando datos locales</string>
+    <string name="locales">Datos de administrador</string>
+
     <string name="text_empty">…</string>
+    <string name="text_accept">Aceptar</string>
+    <string name="text_cancel">Cancelar</string>
 
     <string name="splash_config">Cargando configuraciones del sistema…</string>
     <string name="splash_1">Cargando datos de sesion…</string>
@@ -50,4 +60,5 @@
     <string name="checador_precios_ayuda">Pase el escaner y espere hasta oir un beep</string>
     <string name="checador_articulo">Articulo no encontrado</string>
     <string name="checador_precio">No disponible</string>
+
 </resources>

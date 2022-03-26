@@ -25,6 +25,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.spamovil.Configs.Config;
 import com.example.spamovil.R;
 import com.example.spamovil.controllers.ControllerConfigs;
 import com.example.spamovil.controllers.ControllerUsers;
@@ -34,28 +43,41 @@ import com.example.spamovil.models.Configs;
 import com.example.spamovil.models.Users;
 import com.google.android.material.navigation.NavigationView;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.spamovil.Services.Instances.getConfigs;
 import static com.example.spamovil.Services.Instances.getControllerConfigs;
 import static com.example.spamovil.Services.Instances.getControllerUsers;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class HomeFragment extends Fragment {
 
     private ControllerUsers controllerUsers;
     private ControllerConfigs controllerConfigs;
+    private Config configSystem;
     private Users user;
     private Configs configs;
     private FragmentHomeBinding binding;
     private SwitchCompat switchSession;
     private TextView textName, textEmail, textAddress, textSucursal, textMessagePassword, textMessagePasswordRepeat, textMessagePasswordOld;
     private EditText inputNewPassword, inputNewPasswordRepeat, inputPasswordOld;
+    private TextView textSucursalDL;
+    private TextView textHost;
+    private TextView textDataBase;
     private ArrayList<RadioButton> listOptions = new ArrayList<>();
     private RadioButton radioInicio;
     private RadioButton radioChecadorPrecios;
     private RadioButton radioCodificador;
     private Button btnChangePassword;
+    private Button btnChangeDataLocal;
     private ImageButton btnHelpTab;
     private final Pattern expresionNumber = Pattern.compile("\\d+");
     private final Pattern expresionLetter = Pattern.compile("[a-z]+|[A-Z]+");
@@ -64,6 +86,25 @@ public class HomeFragment extends Fragment {
     private String password, passwordRepeat, passwordOld;
     private AlertDialog alertDialogHelp;
     private AlertDialog.Builder builder;
+    private View loading;
+
+    private RequestQueue queue;
+    private AlertDialog alertDialogChangeDataLocal;
+    private AlertDialog.Builder builderChangeDataLocal;
+    private View viewChangeDataLocal;
+    private EditText ChangeDataLocalSucursal;
+    private EditText ChangeDataLocalHost;
+    private EditText ChangeDataLocalDataBase;
+    private EditText ChangeDataLocalUser;
+    private EditText ChangeDataPassword;
+    private TextView ChangeDatatextBtnCancel;
+    private TextView ChangeDatatextBtnAccept;
+    private String ChangeDataLocalSucursalText;
+    private String ChangeDataLocalHostText;
+    private String ChangeDataLocalDataBaseText;
+    private String ChangeDataLocalUserText;
+    private String ChangeDataPasswordText;
+    private String stringData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -78,10 +119,14 @@ public class HomeFragment extends Fragment {
         setDataPerfil();
         getConfigSession();
         getConfigTabMain();
+        setDataLocal();
+        initAlertChangeDataLocal();
         return root;
     }
 
     private void initInstances(){
+        queue = Volley.newRequestQueue(getContext());
+        configSystem = getConfigs();
         controllerUsers = getControllerUsers();
         controllerConfigs = getControllerConfigs();
     }
@@ -94,6 +139,18 @@ public class HomeFragment extends Fragment {
         textMessagePassword = view.findViewById(R.id.fh_avanzado_message_new_passsword);
         textMessagePasswordRepeat = view.findViewById(R.id.fh_avanzado_message_new_passsword_repeat);
         textMessagePasswordOld = view.findViewById(R.id.fh_avanzado_message_old_password);
+        loading = view.findViewById(R.id.fh_loading);
+
+        textSucursalDL = view.findViewById(R.id.fh_admin_sucursal_label);
+        textHost = view.findViewById(R.id.fh_admin_host_label);
+        textDataBase = view.findViewById(R.id.fh_admin_database_label);
+        btnChangeDataLocal = view.findViewById(R.id.fh_admin_database_btn);
+        btnChangeDataLocal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogChangeDataLocal.show();
+            }
+        });
 
         switchSession = view.findViewById(R.id.fh_avanzado_switch_sesion);
         switchSession.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -210,6 +267,18 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void setDataLocal() {
+        configs = controllerConfigs.getConfig("Sucursal");
+        if (configs != null)
+            textSucursalDL.setText(configs.getValue());
+        configs = controllerConfigs.getConfig("Host");
+        if (configs != null)
+            textHost.setText(configs.getValue());
+        configs = controllerConfigs.getConfig("DataBase");
+        if (configs != null)
+            textDataBase.setText(configs.getValue());
+    }
+
     private void getConfigSession() {
         configs = controllerConfigs.getConfig("SesionActiva");
         if (configs != null)
@@ -249,6 +318,145 @@ public class HomeFragment extends Fragment {
         });
         alertDialogHelp = builder.create();
         alertDialogHelp = builder.create();
+    }
+
+    private void initAlertChangeDataLocal() {
+        viewChangeDataLocal = getLayoutInflater().inflate(R.layout.change_data_local, null);
+        builderChangeDataLocal = new AlertDialog.Builder(getContext());
+        builderChangeDataLocal.setView(viewChangeDataLocal);
+        alertDialogChangeDataLocal = builderChangeDataLocal.create();
+
+        ChangeDataLocalSucursal = viewChangeDataLocal.findViewById(R.id.text_sucursal_change);
+        ChangeDataLocalHost = viewChangeDataLocal.findViewById(R.id.text_host_change);
+        ChangeDataLocalDataBase = viewChangeDataLocal.findViewById(R.id.text_database_change);
+        ChangeDataLocalUser = viewChangeDataLocal.findViewById(R.id.fh_text_user_change);
+        ChangeDataPassword = viewChangeDataLocal.findViewById(R.id.fh_text_password_change);
+        ChangeDatatextBtnAccept = viewChangeDataLocal.findViewById(R.id.fh_accept_change);
+        ChangeDatatextBtnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = configSystem.getURLUSERS() + "api/v1/usuarios/" + ChangeDataLocalUserText;
+                changeDataLocal(url);
+            }
+        });
+        ChangeDatatextBtnCancel = viewChangeDataLocal.findViewById(R.id.fh_cancel_change);
+        ChangeDatatextBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogChangeDataLocal.dismiss();
+            }
+        });
+    }
+
+    private void changeDataLocal(String url) {
+        if (validateDatachangeData()) {
+            loading.setVisibility(View.VISIBLE);
+            JSONObject data = new JSONObject();
+            try {
+                data.put("password_user", ChangeDataPasswordText);
+                stringData = data.toString();
+            } catch (JSONException e) {
+                Toast.makeText(getContext(), "Error al cargar el payload", Toast.LENGTH_LONG).show();
+                loading.setVisibility(View.INVISIBLE);
+            }
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    loading.setVisibility(View.INVISIBLE);
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONArray dataArray = jsonResponse.getJSONArray("data");
+                        JSONObject data = dataArray.getJSONObject(0);
+                        if (!data.getString("tipo_user").equals("manager")) {
+                            Toast.makeText(getContext(), "No cuenta con permisos de administrador", Toast.LENGTH_LONG).show();
+                        } else if (!data.getBoolean("activo_user")) {
+                            Toast.makeText(getContext(), "Su cuenta ha sido suspendida, comunicate con el administrador", Toast.LENGTH_LONG).show();
+                        } else {
+                            configs = controllerConfigs.getConfig("Sucursal");
+                            configs.setValue(ChangeDataLocalSucursalText);
+                            configs = controllerConfigs.getConfig("Host");
+                            configs.setValue(ChangeDataLocalHostText);
+                            configs = controllerConfigs.getConfig("DataBase");
+                            configs.setValue(ChangeDataLocalDataBaseText);
+                            alertDialogChangeDataLocal.dismiss();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(getContext(), "Error al intentar actualizar datos locales", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    loading.setVisibility(View.INVISIBLE);
+                    try {
+                        JSONObject response = new JSONObject(error.getMessage());
+                        if (!response.getBoolean("success"))
+                            Toast.makeText(getContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        Toast.makeText(getContext(), "Fallo al iniciar sesion", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("access-token", configSystem.getTOKENUSERS());
+                    params.put("header-spa-store", configSystem.getTOKENUSERS());
+                    return params;
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return stringData.getBytes(StandardCharsets.UTF_8);
+                }
+
+                @Override
+                protected VolleyError parseNetworkError(VolleyError volleyError) {
+                    NetworkResponse networkResponse = volleyError.networkResponse;
+                    if (networkResponse != null && networkResponse.data != null) {
+                        String jsonError = new String(networkResponse.data);
+                        return super.parseNetworkError(new VolleyError(jsonError));
+                    }
+                    return super.parseNetworkError(volleyError);
+                }
+            };
+
+            queue.add(stringRequest);
+        }
+    }
+
+    private boolean validateDatachangeData() {
+        ChangeDataLocalSucursalText = ChangeDataLocalSucursal.getText().toString().trim();
+        ChangeDataLocalHostText = ChangeDataLocalHost.getText().toString().trim();
+        ChangeDataLocalDataBaseText = ChangeDataLocalDataBase.getText().toString().trim();
+        ChangeDataLocalUserText = ChangeDataLocalUser.getText().toString().trim();
+        ChangeDataPasswordText = ChangeDataPassword.getText().toString().trim();
+        if (ChangeDataLocalSucursalText.equals("")) {
+            Toast.makeText(getContext(), "Sucursal no puede quedar vacio", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (ChangeDataLocalHostText.equals("")) {
+            Toast.makeText(getContext(), "Host no puede quedar vacio", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (ChangeDataLocalDataBaseText.equals("")) {
+            Toast.makeText(getContext(), "Base de datos no puede quedar vacia", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (ChangeDataLocalUserText.equals("")) {
+            Toast.makeText(getContext(), "Usuario no puede quedar vacio", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (ChangeDataPasswordText.equals("")) {
+            Toast.makeText(getContext(), "Contraseña no puede quedar vacia", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     @Override
