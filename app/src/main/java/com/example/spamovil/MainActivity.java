@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+   /* @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode >= 7 && keyCode <= 16)
             barCode += String.valueOf(event.getNumber());
