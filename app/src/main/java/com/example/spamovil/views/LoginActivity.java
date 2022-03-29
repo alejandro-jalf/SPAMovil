@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initSesion() {
+        closedKeyWord();
         text_user = user.getText().toString().trim();
         text_password = password.getText().toString().trim();
         user.clearFocus();
@@ -229,6 +231,14 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             backgroundSpinner.setVisibility(View.INVISIBLE);
             spinner.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void closedKeyWord() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
