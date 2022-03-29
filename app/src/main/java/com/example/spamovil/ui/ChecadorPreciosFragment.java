@@ -5,9 +5,16 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +44,8 @@ public class ChecadorPreciosFragment extends Fragment {
     private TextView descriptionArticle;
     private View line2Article;
     private View line3Article;
+    private EditText keyBoardCode;
+    private View layoutFragment;
 
     public ChecadorPreciosFragment(View decorView, ActionBar actionBar) {
         this.decorView = decorView;
@@ -85,7 +94,57 @@ public class ChecadorPreciosFragment extends Fragment {
         articulos = new Articulos(getContext());
     }
 
+    private String barCode = "";
     private void initComponents(View view) {
+        layoutFragment = view;
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("fragment_checador", "click");
+                keyBoardCode.requestFocus();
+            }
+        });
+        keyBoardCode = view.findViewById(R.id.text_key_board_code);
+        keyBoardCode.setInputType(InputType.TYPE_NULL);
+        keyBoardCode.requestFocus();
+        keyBoardCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(
+                        i == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER
+                ) {
+                    Log.d("fragment_checador", "enter");
+                    getPriceArticle(barCode);
+                    barCode = "";
+                    keyBoardCode.setText("");
+                    return true;
+
+                }
+                return false;
+            }
+        });
+        keyBoardCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //int keyCode = Integer.parseInt(charSequence.toString());
+                Log.d("fragment_checador_lis", charSequence.toString());
+                barCode = charSequence.toString();
+                /*if (keyCode >= 7 && keyCode <= 16)
+                    barCode += String.valueOf(keyEvent.getNumber());
+                else if (keyCode == 66) {
+                    getPriceArticle(barCode);
+                    barCode = "";
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
         nameArticle = view.findViewById(R.id.fcp_name);
         descriptionArticle = view.findViewById(R.id.fcp_descripcion);
         precio1Article = view.findViewById(R.id.fcp_precio_1);
@@ -126,8 +185,10 @@ public class ChecadorPreciosFragment extends Fragment {
         String sucursal = "ZR";
         try {
             sucursal = controllerConfigs.getConfig("Sucursal").getValue();
+            keyBoardCode.requestFocus();
         } catch (Exception e) {
             Toast.makeText(getContext(), "No se pudo obtener la sucursal", Toast.LENGTH_SHORT).show();
+            keyBoardCode.requestFocus();
         }
         response = articulos.getPrecioArticulo(sucursal, barCode);
         if (response != null) {
@@ -167,9 +228,12 @@ public class ChecadorPreciosFragment extends Fragment {
                 if (isValue(response, "Descripcion"))
                     descriptionArticle.setText(response.getString("Descripcion"));
                 else descriptionArticle.setText(R.string.checador_articulo);
+                layoutFragment.performClick();
             } catch (Exception e) {
+                layoutFragment.performClick();
                 e.printStackTrace();
             }
+            layoutFragment.performClick();
         }
     }
 }

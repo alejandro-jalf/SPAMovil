@@ -1,5 +1,6 @@
 package com.example.spamovil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.spamovil.Services.Instances;
 import com.example.spamovil.controllers.ControllerConfigs;
@@ -74,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController); */
         setTabMain();
+        //hiddenKeyBoard();
+    }
+
+    private void hiddenKeyBoard() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void setupNavigationDrawerContent(NavigationView navigationView) {
@@ -158,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-   /* @Override
+    /*@Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode >= 7 && keyCode <= 16)
             barCode += String.valueOf(event.getNumber());
@@ -167,6 +175,14 @@ public class MainActivity extends AppCompatActivity {
             barCode = "";
         }
         return super.onKeyUp(keyCode, event);
+    }*/
+
+    private void closedKeyWord() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     /* @Override
